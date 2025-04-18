@@ -8,4 +8,4 @@ RUN gradle build --no-daemon
 FROM eclipse-temurin:17-jre
 EXPOSE 8082
 COPY --from=build /CarAndBookingService/build/libs/CarAndBookingService-0.0.1-SNAPSHOT.jar CarAndBookingService-0.0.1-SNAPSHOT.jar
-ENTRYPOINT ["java","-jar","userservice-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java","-jar","CarAndBookingService-0.0.1-SNAPSHOT.jar"]
