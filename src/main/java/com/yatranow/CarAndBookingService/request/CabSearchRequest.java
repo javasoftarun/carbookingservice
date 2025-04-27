@@ -11,10 +11,10 @@ public class CabSearchRequest {
 
 	private String pickupLocation;
 	private String dropLocation;
-	private String pickupLat;
-	private String pickuplng;
-	private String dropLat;
-	private String dropLng;
+//	private String pickupLat;
+//	private String pickuplng;
+//	private String dropLat;
+//	private String dropLng;
 	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	private LocalDateTime pickupDateTime;
 	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
@@ -32,30 +32,30 @@ public class CabSearchRequest {
 	public void setDropLocation(String dropLocation) {
 		this.dropLocation = dropLocation;
 	}
-	public String getPickupLat() {
-		return pickupLat;
-	}
-	public void setPickupLat(String pickupLat) {
-		this.pickupLat = pickupLat;
-	}
-	public String getPickuplng() {
-		return pickuplng;
-	}
-	public void setPickuplng(String pickuplng) {
-		this.pickuplng = pickuplng;
-	}
-	public String getDropLat() {
-		return dropLat;
-	}
-	public void setDropLat(String dropLat) {
-		this.dropLat = dropLat;
-	}
-	public String getDropLng() {
-		return dropLng;
-	}
-	public void setDropLng(String dropLng) {
-		this.dropLng = dropLng;
-	}
+//	public String getPickupLat() {
+//		return pickupLat;
+//	}
+//	public void setPickupLat(String pickupLat) {
+//		this.pickupLat = pickupLat;
+//	}
+//	public String getPickuplng() {
+//		return pickuplng;
+//	}
+//	public void setPickuplng(String pickuplng) {
+//		this.pickuplng = pickuplng;
+//	}
+//	public String getDropLat() {
+//		return dropLat;
+//	}
+//	public void setDropLat(String dropLat) {
+//		this.dropLat = dropLat;
+//	}
+//	public String getDropLng() {
+//		return dropLng;
+//	}
+//	public void setDropLng(String dropLng) {
+//		this.dropLng = dropLng;
+//	}
 	public LocalDateTime getPickupDateTime() {
 		return pickupDateTime;
 	}
