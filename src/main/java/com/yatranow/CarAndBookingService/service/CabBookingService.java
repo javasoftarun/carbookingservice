@@ -29,6 +29,7 @@ public class CabBookingService {
     	cabBookingDetails.setBookingStatus("Pending");
 		// Save the booking details to the database
     	CabBookingDetails savedData = cabBookingDetailsRepository.save(cabBookingDetails);
+    	cabBookingResponse.setUserId(savedData.getUserId());
     	cabBookingResponse.setBookingId(savedData.getBookingId());
     	cabBookingResponse.setCabRegistrationId(savedData.getCabRegistrationId());
     	cabBookingResponse.setPickupLocation(savedData.getPickupLocation());
