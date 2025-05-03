@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.yatranow.CarAndBookingService.entity.CabBookingDetails;
 import com.yatranow.CarAndBookingService.response.ApiResponse;
+import com.yatranow.CarAndBookingService.response.CabBookingResponse;
 import com.yatranow.CarAndBookingService.service.CabBookingService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -36,21 +37,21 @@ public class CabBookingController {
     public ResponseEntity<ApiResponse> startCabBooking(
             @RequestBody CabBookingDetails cabBookingDetails) {
         try {
-            CabBookingDetails createdBooking = cabBookingDetailsService.startCabBooking(cabBookingDetails);
-            return ResponseEntity.ok(new ApiResponse("success", new Object[] { createdBooking }, 200));
+            CabBookingResponse bookingResponse = cabBookingDetailsService.startCabBooking(cabBookingDetails);
+            return ResponseEntity.ok(new ApiResponse("success", new Object[] { bookingResponse }, 200));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
                     .body(new ApiResponse("Error creating booking: " + e.getMessage(), null, 400));
         }
     }
 
-    @Operation(summary = "Get cab booking by ID", description = "Fetches a cab booking by its ID.")
+    @Operation(summary = "Get booking details with Driver details by booking ID", description = "Fetches a cab booking by its booking ID.")
     @GetMapping("/find/{bookingId}")
     public ResponseEntity<ApiResponse> getCabBookingById(
             @Parameter(description = "ID of the cab booking to fetch") @PathVariable("bookingId") Long bookingId) {
         try {
-            CabBookingDetails cabBookingDetails = cabBookingDetailsService.getCabBookingById(bookingId);
-            return ResponseEntity.ok(new ApiResponse("success", new Object[] { cabBookingDetails }, 200));
+            CabBookingResponse bookingResponse = cabBookingDetailsService.getCabBookingWithDriverDetailsById(bookingId);
+            return ResponseEntity.ok(new ApiResponse("success", new Object[] { bookingResponse }, 200));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
                     .body(new ApiResponse("Error fetching booking: " + e.getMessage(), null, 400));
