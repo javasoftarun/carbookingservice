@@ -12,6 +12,7 @@ import com.yatranow.CarAndBookingService.entity.CabBookingDetails;
 import com.yatranow.CarAndBookingService.repository.CabBookingDetailsRepository;
 import com.yatranow.CarAndBookingService.repository.CabRegistrationDetailsRepository;
 import com.yatranow.CarAndBookingService.request.CabAvailabilityRequest;
+import com.yatranow.CarAndBookingService.request.UpdateBookingStatusRequest;
 import com.yatranow.CarAndBookingService.response.CabBookingResponse;
 
 @Service
@@ -30,6 +31,9 @@ public class CabBookingService {
     	double balanceAmt = calculateBalanceAmount(cabBookingDetails.getFare(), cabBookingDetails.getPromoDiscount(), cabBookingDetails.getTokenAmount());
     	cabBookingDetails.setBalanceAmount(balanceAmt);
     	cabBookingDetails.setBookingStatus("Pending");
+    	if (cabBookingDetails.getTokenAmount() > 0) {
+			cabBookingDetails.setPaymentStatus("partial");
+		} 
 		// Save the booking details to the database
     	CabBookingDetails savedData = cabBookingDetailsRepository.save(cabBookingDetails);
     	cabBookingResponse.setUserId(savedData.getUserId());
@@ -82,6 +86,8 @@ public class CabBookingService {
     	CabBookingResponse cabBookingResponse = new CabBookingResponse();
         cabBookingDetailsRepository.findById(id).ifPresent(cabBookingDetails -> {
         	cabBookingResponse.setBookingId(cabBookingDetails.getBookingId());
+        	cabBookingResponse.setPaymentStatus(cabBookingDetails.getPaymentStatus());
+        	cabBookingResponse.setBookingStatusUpdatedBy(cabBookingDetails.getBookingStatusUpdatedBy());
         	cabBookingResponse.setCabRegistrationId(cabBookingDetails.getCabRegistrationId());
         	cabBookingResponse.setPickupLocation(cabBookingDetails.getPickupLocation());
         	cabBookingResponse.setDropLocation(cabBookingDetails.getDropLocation());
@@ -120,6 +126,8 @@ public class CabBookingService {
         	cabBookingResponse.setUserId(userId);
         	cabBookingResponse.setBookingId(cabBookingDetails.getBookingId());
 			cabBookingResponse.setCabRegistrationId(cabBookingDetails.getCabRegistrationId());
+			cabBookingResponse.setPaymentStatus(cabBookingDetails.getPaymentStatus());
+        	cabBookingResponse.setBookingStatusUpdatedBy(cabBookingDetails.getBookingStatusUpdatedBy());
 			cabBookingResponse.setPickupLocation(cabBookingDetails.getPickupLocation());
 			cabBookingResponse.setDropLocation(cabBookingDetails.getDropLocation());
 			cabBookingResponse.setPickupDateTime(cabBookingDetails.getPickupDateTime());
@@ -191,6 +199,8 @@ public class CabBookingService {
         	cabBookingResponse.setUserId(cabBookingDetails.getUserId());
         	cabBookingResponse.setBookingId(cabBookingDetails.getBookingId());
 			cabBookingResponse.setCabRegistrationId(cabBookingDetails.getCabRegistrationId());
+			cabBookingResponse.setPaymentStatus(cabBookingDetails.getPaymentStatus());
+        	cabBookingResponse.setBookingStatusUpdatedBy(cabBookingDetails.getBookingStatusUpdatedBy());
 			cabBookingResponse.setPickupLocation(cabBookingDetails.getPickupLocation());
 			cabBookingResponse.setDropLocation(cabBookingDetails.getDropLocation());
 			cabBookingResponse.setPickupDateTime(cabBookingDetails.getPickupDateTime());
@@ -221,6 +231,29 @@ public class CabBookingService {
         });
         return bookingList;
 	}
-		
+	
+	public List<CabBookingDetails> getBookingsByUserIdAndStatus(Long userId, String bookingStatus) {
+        return cabBookingDetailsRepository.findByUserIdAndBookingStatus(userId, bookingStatus);
+    }
+	
+	public CabBookingDetails updateBookingStatusByRoleAndBookingId(UpdateBookingStatusRequest request) throws Exception {
+        // Fetch the booking details by cabRegistrationId
+        CabBookingDetails bookingDetails = cabBookingDetailsRepository.findByBookingId(request.getBookingId())
+                .orElseThrow(() -> new Exception("Booking not found for cabRegistrationId: " + request.getBookingId()));
+
+        // Check role and update status
+        if ("SUPERADMIN".equalsIgnoreCase(request.getRole()) || "ADMIN".equalsIgnoreCase(request.getRole()) || "DRIVER".equalsIgnoreCase(request.getRole()) || "CABOWNER".equalsIgnoreCase(request.getRole())) {
+            if (request.getBookingStatus() != null && !request.getBookingStatus().isEmpty()) {
+				bookingDetails.setBookingStatus(request.getBookingStatus());
+			}
+			if (request.getPaymentStatus() != null && !request.getPaymentStatus().isEmpty()) {
+				bookingDetails.setPaymentStatus(request.getPaymentStatus());
+			}
+            bookingDetails.setBookingStatusUpdatedBy(request.getRole());
+            return cabBookingDetailsRepository.save(bookingDetails);
+        } else {
+            throw new Exception("Unauthorized role: " + request.getRole());
+        }
+    }
 }
 

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.yatranow.CarAndBookingService.entity.CabBookingDetails;
 import com.yatranow.CarAndBookingService.request.CabAvailabilityRequest;
+import com.yatranow.CarAndBookingService.request.UpdateBookingStatusRequest;
 import com.yatranow.CarAndBookingService.response.ApiResponse;
 import com.yatranow.CarAndBookingService.response.CabBookingResponse;
 import com.yatranow.CarAndBookingService.service.CabBookingService;
@@ -139,5 +140,29 @@ public class CabBookingController {
 					.body(new ApiResponse("Error fetching booking: " + e.getMessage(), null, 400));
 		}
 	}
+	
+	@GetMapping("/get-by-userid-and-status/{userId}/{bookingStatus}")
+    public ResponseEntity<ApiResponse> getBookingsByUserIdAndStatus(
+            @PathVariable("userId") Long userId,
+            @PathVariable("bookingStatus") String bookingStatus) {
+        try {
+            List<CabBookingDetails> bookingList = cabBookingDetailsService.getBookingsByUserIdAndStatus(userId, bookingStatus);
+            return ResponseEntity.ok(new ApiResponse("success", bookingList.toArray(), 200));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body(new ApiResponse("Error fetching bookings: " + e.getMessage(), null, 400));
+        }
+    }
+	
+	@PutMapping("/update-booking-status")
+    public ResponseEntity<ApiResponse> updateBookingStatusByRoleAndBookingId(@RequestBody UpdateBookingStatusRequest request) {
+        try {
+            CabBookingDetails updatedBooking = cabBookingDetailsService.updateBookingStatusByRoleAndBookingId(request);
+            return ResponseEntity.ok(new ApiResponse("success", new Object[] { updatedBooking }, 200));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body(new ApiResponse("Error updating booking status: " + e.getMessage(), null, 400));
+        }
+    }
     
 }

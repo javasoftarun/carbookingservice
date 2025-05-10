@@ -27,5 +27,9 @@ public interface CabBookingDetailsRepository extends JpaRepository<CabBookingDet
 
 	@Query("SELECT c FROM CabBookingDetails c WHERE c.cabRegistrationId = :cabRegistrationId")
 	public List<CabBookingDetails> findByCabRegistrationId(@Param("cabRegistrationId") Long cabRegistrationId);
+	
+	List<CabBookingDetails> findByUserIdAndBookingStatus(Long userId, String bookingStatus);
+
+	public Optional<CabBookingDetails> findByBookingId(Long bookingId);
 
 }

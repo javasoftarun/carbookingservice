@@ -43,6 +43,8 @@ public class CabBookingResponse {
 	private String cabImageUrl;
 	private String cabCity;
 	private String cabState;
+	private String bookingStatusUpdatedBy;
+    private String paymentStatus;
 	
 	public Long getBookingId() {
 		return bookingId;
@@ -211,5 +213,17 @@ public class CabBookingResponse {
 	}
 	public void setCabState(String cabState) {
 		this.cabState = cabState;
+	}
+	public String getBookingStatusUpdatedBy() {
+		return bookingStatusUpdatedBy;
+	}
+	public void setBookingStatusUpdatedBy(String bookingStatusUpdatedBy) {
+		this.bookingStatusUpdatedBy = bookingStatusUpdatedBy;
+	}
+	public String getPaymentStatus() {
+		return paymentStatus;
+	}
+	public void setPaymentStatus(String paymentStatus) {
+		this.paymentStatus = paymentStatus;
 	}
 }
