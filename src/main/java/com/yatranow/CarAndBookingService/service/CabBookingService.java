@@ -1,5 +1,7 @@
 package com.yatranow.CarAndBookingService.service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.yatranow.CarAndBookingService.entity.CabBookingDetails;
 import com.yatranow.CarAndBookingService.repository.CabBookingDetailsRepository;
 import com.yatranow.CarAndBookingService.repository.CabRegistrationDetailsRepository;
+import com.yatranow.CarAndBookingService.request.CabAvailabilityRequest;
 import com.yatranow.CarAndBookingService.response.CabBookingResponse;
 
 @Service
@@ -109,6 +112,44 @@ public class CabBookingService {
 		});
         return cabBookingResponse;
     }
+    
+    public List<CabBookingResponse> getCabBookingDetailsByUserId(Long userId) {
+    	List<CabBookingResponse> bookingList = new ArrayList<>();
+        cabBookingDetailsRepository.findByUserId(userId).stream().forEach(cabBookingDetails -> {
+        	CabBookingResponse cabBookingResponse = new CabBookingResponse();
+        	cabBookingResponse.setUserId(userId);
+        	cabBookingResponse.setBookingId(cabBookingDetails.getBookingId());
+			cabBookingResponse.setCabRegistrationId(cabBookingDetails.getCabRegistrationId());
+			cabBookingResponse.setPickupLocation(cabBookingDetails.getPickupLocation());
+			cabBookingResponse.setDropLocation(cabBookingDetails.getDropLocation());
+			cabBookingResponse.setPickupDateTime(cabBookingDetails.getPickupDateTime());
+			cabBookingResponse.setDropDateTime(cabBookingDetails.getDropDateTime());
+			cabBookingResponse.setFare(cabBookingDetails.getFare());
+			cabBookingResponse.setPromoDiscount(cabBookingDetails.getPromoDiscount());
+			cabBookingResponse.setTokenAmount(cabBookingDetails.getTokenAmount());
+			cabBookingResponse.setBalanceAmount(cabBookingDetails.getBalanceAmount());
+	   
+			cabRegDetailsRepo.findByRegistrationId(cabBookingDetails.getCabRegistrationId()).ifPresent(cabRegDetails -> {
+				cabBookingResponse.setDriverName(cabRegDetails.getDriverName());
+				cabBookingResponse.setDriverContact(cabRegDetails.getDriverContact());
+				cabBookingResponse.setDriverLicense(cabRegDetails.getDriverLicense());
+				cabBookingResponse.setAddress(cabRegDetails.getAddress());
+				cabBookingResponse.setCabId(cabRegDetails.getCab().getCabId());
+				cabBookingResponse.setCabName(cabRegDetails.getCab().getCabName());
+				cabBookingResponse.setCabType(cabRegDetails.getCab().getCabType());
+				cabBookingResponse.setCabNumber(cabRegDetails.getCab().getCabNumber());
+				cabBookingResponse.setCabColor(cabRegDetails.getCab().getCabColor());
+				cabBookingResponse.setCabInsurance(cabRegDetails.getCab().getCabInsurance());
+				cabBookingResponse.setCabCapacity(cabRegDetails.getCab().getCabCapacity());
+				cabBookingResponse.setCabImageUrl(cabRegDetails.getCab().getCabImageUrl());
+				cabBookingResponse.setCabCity(cabRegDetails.getCab().getCabCity());
+				cabBookingResponse.setCabState(cabRegDetails.getCab().getCabState());
+				cabBookingResponse.setCabModel(cabRegDetails.getCab().getCabModel());
+			});
+			bookingList.add(cabBookingResponse);
+        });
+        return bookingList;
+    }
 
     // Get all cab bookings
     public List<CabBookingDetails> getAllCabBookings() {
@@ -132,5 +173,54 @@ public class CabBookingService {
     public void deleteCabBooking(Long id) {
         cabBookingDetailsRepository.deleteById(id);
     }
+
+    
+	public boolean checkCabAvailability(CabAvailabilityRequest request) {
+		Long cabRegistrationId = request.getCabRegistrationId();
+		LocalDateTime pickupDateTime = request.getPickupDateTime();
+		LocalDateTime dropDateTime = request.getDropDateTime();
+		Optional<CabBookingDetails> cabBookingDetails = cabBookingDetailsRepository.findAvailableCabBetweenPickAndDropDate(
+	            cabRegistrationId, pickupDateTime, dropDateTime);
+		return cabBookingDetails.isEmpty();
+	}
+
+	public List<CabBookingResponse> getCabBookingDetailsByCabRegistrationId(Long cabRegistrationId) {
+		List<CabBookingResponse> bookingList = new ArrayList<>();
+        cabBookingDetailsRepository.findByCabRegistrationId(cabRegistrationId).stream().forEach(cabBookingDetails -> {
+        	CabBookingResponse cabBookingResponse = new CabBookingResponse();
+        	cabBookingResponse.setUserId(cabBookingDetails.getUserId());
+        	cabBookingResponse.setBookingId(cabBookingDetails.getBookingId());
+			cabBookingResponse.setCabRegistrationId(cabBookingDetails.getCabRegistrationId());
+			cabBookingResponse.setPickupLocation(cabBookingDetails.getPickupLocation());
+			cabBookingResponse.setDropLocation(cabBookingDetails.getDropLocation());
+			cabBookingResponse.setPickupDateTime(cabBookingDetails.getPickupDateTime());
+			cabBookingResponse.setDropDateTime(cabBookingDetails.getDropDateTime());
+			cabBookingResponse.setFare(cabBookingDetails.getFare());
+			cabBookingResponse.setPromoDiscount(cabBookingDetails.getPromoDiscount());
+			cabBookingResponse.setTokenAmount(cabBookingDetails.getTokenAmount());
+			cabBookingResponse.setBalanceAmount(cabBookingDetails.getBalanceAmount());
+	   
+			cabRegDetailsRepo.findByRegistrationId(cabBookingDetails.getCabRegistrationId()).ifPresent(cabRegDetails -> {
+				cabBookingResponse.setDriverName(cabRegDetails.getDriverName());
+				cabBookingResponse.setDriverContact(cabRegDetails.getDriverContact());
+				cabBookingResponse.setDriverLicense(cabRegDetails.getDriverLicense());
+				cabBookingResponse.setAddress(cabRegDetails.getAddress());
+				cabBookingResponse.setCabId(cabRegDetails.getCab().getCabId());
+				cabBookingResponse.setCabName(cabRegDetails.getCab().getCabName());
+				cabBookingResponse.setCabType(cabRegDetails.getCab().getCabType());
+				cabBookingResponse.setCabNumber(cabRegDetails.getCab().getCabNumber());
+				cabBookingResponse.setCabColor(cabRegDetails.getCab().getCabColor());
+				cabBookingResponse.setCabInsurance(cabRegDetails.getCab().getCabInsurance());
+				cabBookingResponse.setCabCapacity(cabRegDetails.getCab().getCabCapacity());
+				cabBookingResponse.setCabImageUrl(cabRegDetails.getCab().getCabImageUrl());
+				cabBookingResponse.setCabCity(cabRegDetails.getCab().getCabCity());
+				cabBookingResponse.setCabState(cabRegDetails.getCab().getCabState());
+				cabBookingResponse.setCabModel(cabRegDetails.getCab().getCabModel());
+			});
+			bookingList.add(cabBookingResponse);
+        });
+        return bookingList;
+	}
+		
 }
 

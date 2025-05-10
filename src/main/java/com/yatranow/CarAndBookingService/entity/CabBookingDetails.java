@@ -35,6 +35,7 @@ public class CabBookingDetails {
     @Nullable
     private double balanceAmount;
     private String bookingStatus;
+    private String updatedBy;
 
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "paymentId", referencedColumnName = "paymentId")
@@ -173,6 +174,12 @@ public class CabBookingDetails {
 
 	public void setBookingStatus(String bookingStatus) {
 		this.bookingStatus = bookingStatus;
+	}
+	public String getUpdatedBy() {
+		return updatedBy;
+	}
+	public void setUpdatedBy(String updatedBy) {
+		this.updatedBy = updatedBy;
 	}
 }
 
