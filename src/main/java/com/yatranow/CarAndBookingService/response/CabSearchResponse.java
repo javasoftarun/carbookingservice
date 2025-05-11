@@ -108,5 +108,17 @@ public class CabSearchResponse {
 	public void setCabImageUrl(String cabImageUrl) {
 		this.cabImageUrl = cabImageUrl;
 	}
+	public LocalDateTime getPickupDateTime() {
+		return pickupDateTime;
+	}
+	public void setPickupDateTime(LocalDateTime pickupDateTime) {
+		this.pickupDateTime = pickupDateTime;
+	}
+	public LocalDateTime getDropDateTime() {
+		return dropDateTime;
+	}
+	public void setDropDateTime(LocalDateTime dropDateTime) {
+		this.dropDateTime = dropDateTime;
+	}
 
 }

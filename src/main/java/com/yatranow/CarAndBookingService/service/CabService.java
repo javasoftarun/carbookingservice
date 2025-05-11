@@ -48,6 +48,10 @@ public class CabService {
 						System.out.println("distanceToDrop :: " + distanceToDrop);
                         double totalDistance = distanceToPickup + distanceToDrop;
                         double fare = calculateFareForRoundTrip(totalDistance, cab.getPerKmRate(), cab.getBaseFare());
+                        cabSearchResponse.setPickupLocation(cabSearchRequest.getPickupLocation());
+                        cabSearchResponse.setDropLocation(cabSearchRequest.getDropLocation());
+                        cabSearchResponse.setPickupDateTime(cabSearchRequest.getPickupDateTime());
+                        cabSearchResponse.setDropDateTime(cabSearchRequest.getDropDateTime());
                         cabSearchResponse.setRegistrationId(cab.getRegistrationId());
                         cabSearchResponse.setBaseFare(cab.getBaseFare());
                         cabSearchResponse.setPerKmRate(cab.getPerKmRate());
