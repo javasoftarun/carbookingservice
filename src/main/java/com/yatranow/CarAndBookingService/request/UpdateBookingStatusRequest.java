@@ -3,6 +3,7 @@ package com.yatranow.CarAndBookingService.request;
 public class UpdateBookingStatusRequest {
 
 	private Long bookingId;
+	private Long cabRegistrationId;
 	private String bookingStatus;
 	private String paymentStatus;
 	private String role;
@@ -12,6 +13,12 @@ public class UpdateBookingStatusRequest {
 	}
 	public void setBookingId(Long bookingId) {
 		this.bookingId = bookingId;
+	}
+	public Long getCabRegistrationId() {
+		return cabRegistrationId;
+	}
+	public void setCabRegistrationId(Long cabRegistrationId) {
+		this.cabRegistrationId = cabRegistrationId;
 	}
 	public String getBookingStatus() {
 		return bookingStatus;
