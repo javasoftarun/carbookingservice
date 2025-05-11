@@ -52,7 +52,7 @@ public class CabService {
                         cabSearchResponse.setDropLocation(cabSearchRequest.getDropLocation());
                         cabSearchResponse.setPickupDateTime(cabSearchRequest.getPickupDateTime());
                         cabSearchResponse.setDropDateTime(cabSearchRequest.getDropDateTime());
-                        cabSearchResponse.setRegistrationId(cab.getRegistrationId());
+                        cabSearchResponse.setCabRegistrationId(cab.getRegistrationId());
                         cabSearchResponse.setBaseFare(cab.getBaseFare());
                         cabSearchResponse.setPerKmRate(cab.getPerKmRate());
                         cabSearchResponse.setFare(fare);

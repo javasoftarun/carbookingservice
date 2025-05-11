@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class CabSearchResponse {
 
-	private Long registrationId;
+	private Long cabRegistrationId;
 	private String pickupLocation;
 	private String dropLocation;
 	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
@@ -24,11 +24,11 @@ public class CabSearchResponse {
 	private String cabInsurance;
 	private String cabCapacity;
 	private String cabImageUrl;
-	public Long getRegistrationId() {
-		return registrationId;
+	public Long getCabRegistrationId() {
+		return cabRegistrationId;
 	}
-	public void setRegistrationId(Long registrationId) {
-		this.registrationId = registrationId;
+	public void setCabRegistrationId(Long cabRegistrationId) {
+		this.cabRegistrationId = cabRegistrationId;
 	}
 	public String getPickupLocation() {
 		return pickupLocation;
