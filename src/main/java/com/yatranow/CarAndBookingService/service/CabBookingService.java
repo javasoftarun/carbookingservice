@@ -170,11 +170,14 @@ public class CabBookingService {
 	// Update cab booking
 	public CabBookingDetails updateCabBooking(Long id, CabBookingDetails updatedDetails) {
 		CabBookingDetails existingBooking = getCabBookingById(id);
+		existingBooking.setCabRegistrationId(updatedDetails.getCabRegistrationId());
 		existingBooking.setPickupLocation(updatedDetails.getPickupLocation());
 		existingBooking.setDropLocation(updatedDetails.getDropLocation());
 		existingBooking.setPickupDateTime(updatedDetails.getPickupDateTime());
 		existingBooking.setDropDateTime(updatedDetails.getDropDateTime());
 		existingBooking.setFare(updatedDetails.getFare());
+		existingBooking.setTokenAmount(updatedDetails.getTokenAmount());
+		existingBooking.setBalanceAmount(updatedDetails.getBalanceAmount());
 		existingBooking.setPromoDiscount(updatedDetails.getPromoDiscount());
 		existingBooking.setPaymentDetails(updatedDetails.getPaymentDetails());
 		return cabBookingDetailsRepository.save(existingBooking);
