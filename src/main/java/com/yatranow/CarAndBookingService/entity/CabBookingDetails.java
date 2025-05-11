@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,7 +20,7 @@ import jakarta.persistence.PreUpdate;
 public class CabBookingDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long cabBookingId;
+	private Long bookingId;
     private Long userId;
     private Long cabRegistrationId;
     private String pickupLocation;
@@ -30,9 +31,15 @@ public class CabBookingDetails {
     private LocalDateTime dropDateTime;
     private double fare;
     private double promoDiscount;
-    private double finalFare;
+    private double tokenAmount;
+    @Nullable
+    private double balanceAmount;
+    private String bookingStatus;
+    private String bookingStatusUpdatedBy;
+    private String paymentStatus;
     
-    @OneToOne(cascade = CascadeType.ALL)
+
+	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "paymentId", referencedColumnName = "paymentId")
     private PaymentDetails paymentDetails;
     
@@ -52,12 +59,12 @@ public class CabBookingDetails {
         updatedAt = LocalDateTime.now();
     }
 
-	public Long getCabBookingId() {
-		return cabBookingId;
+	public Long getBookingId() {
+		return bookingId;
 	}
 
-	public void setCabBookingId(Long cabBookingId) {
-		this.cabBookingId = cabBookingId;
+	public void setBookingId(Long bookingId) {
+		this.bookingId = bookingId;
 	}
 
 	public Long getUserId() {
@@ -124,14 +131,6 @@ public class CabBookingDetails {
 		this.promoDiscount = promoDiscount;
 	}
 
-	public double getFinalFare() {
-		return finalFare;
-	}
-
-	public void setFinalFare(double finalFare) {
-		this.finalFare = finalFare;
-	}
-
 	public LocalDateTime getInsertedAt() {
 		return insertedAt;
 	}
@@ -155,6 +154,45 @@ public class CabBookingDetails {
 	public void setPaymentDetails(PaymentDetails paymentDetails) {
 		this.paymentDetails = paymentDetails;
 	}
-    
+	public double getTokenAmount() {
+		return tokenAmount;
+	}
+
+	public void setTokenAmount(double tokenAmount) {
+		this.tokenAmount = tokenAmount;
+	}
+
+	public double getBalanceAmount() {
+		return balanceAmount;
+	}
+
+	public void setBalanceAmount(double balanceAmount) {
+		this.balanceAmount = balanceAmount;
+	}
+
+	public String getBookingStatus() {
+		return bookingStatus;
+	}
+
+	public void setBookingStatus(String bookingStatus) {
+		this.bookingStatus = bookingStatus;
+	}
+
+	public String getBookingStatusUpdatedBy() {
+		return bookingStatusUpdatedBy;
+	}
+
+	public void setBookingStatusUpdatedBy(String bookingStatusUpdatedBy) {
+		this.bookingStatusUpdatedBy = bookingStatusUpdatedBy;
+	}
+
+	public String getPaymentStatus() {
+		return paymentStatus;
+	}
+
+	public void setPaymentStatus(String paymentStatus) {
+		this.paymentStatus = paymentStatus;
+	}
+	
 }
 

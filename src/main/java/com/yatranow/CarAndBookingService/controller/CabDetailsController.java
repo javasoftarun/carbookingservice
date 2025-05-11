@@ -116,7 +116,8 @@ public class CabDetailsController {
             return ResponseEntity.ok(new ApiResponse("success", cabs.toArray(), 200));
     	} catch (Exception e) {
 			return ResponseEntity.status(500).body(new ApiResponse(e.getMessage(), null, 500));
-		}
-        
+		}  
     }
+    
+    
 }

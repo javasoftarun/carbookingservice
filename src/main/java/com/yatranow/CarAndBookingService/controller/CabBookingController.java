@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yatranow.CarAndBookingService.entity.CabBookingDetails;
+import com.yatranow.CarAndBookingService.request.CabAvailabilityRequest;
+import com.yatranow.CarAndBookingService.request.UpdateBookingStatusRequest;
 import com.yatranow.CarAndBookingService.response.ApiResponse;
+import com.yatranow.CarAndBookingService.response.CabBookingResponse;
 import com.yatranow.CarAndBookingService.service.CabBookingService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -36,21 +39,21 @@ public class CabBookingController {
     public ResponseEntity<ApiResponse> startCabBooking(
             @RequestBody CabBookingDetails cabBookingDetails) {
         try {
-            CabBookingDetails createdBooking = cabBookingDetailsService.startCabBooking(cabBookingDetails);
-            return ResponseEntity.ok(new ApiResponse("success", new Object[] { createdBooking }, 200));
+            CabBookingResponse bookingResponse = cabBookingDetailsService.startCabBooking(cabBookingDetails);
+            return ResponseEntity.ok(new ApiResponse("success", new Object[] { bookingResponse }, 200));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
                     .body(new ApiResponse("Error creating booking: " + e.getMessage(), null, 400));
         }
     }
 
-    @Operation(summary = "Get cab booking by ID", description = "Fetches a cab booking by its ID.")
+    @Operation(summary = "Get booking details with Driver details by booking ID", description = "Fetches a cab booking by its booking ID.")
     @GetMapping("/find/{bookingId}")
     public ResponseEntity<ApiResponse> getCabBookingById(
             @Parameter(description = "ID of the cab booking to fetch") @PathVariable("bookingId") Long bookingId) {
         try {
-            CabBookingDetails cabBookingDetails = cabBookingDetailsService.getCabBookingById(bookingId);
-            return ResponseEntity.ok(new ApiResponse("success", new Object[] { cabBookingDetails }, 200));
+            CabBookingResponse bookingResponse = cabBookingDetailsService.getCabBookingWithDriverDetailsById(bookingId);
+            return ResponseEntity.ok(new ApiResponse("success", new Object[] { bookingResponse }, 200));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
                     .body(new ApiResponse("Error fetching booking: " + e.getMessage(), null, 400));
@@ -95,4 +98,71 @@ public class CabBookingController {
                     .body(new ApiResponse("Error deleting booking: " + e.getMessage(), null, 400));
         }
     }
+    
+    @Operation(summary = "Check cab availability", description = "Checks if a cab is available for the given time.")
+    @PostMapping("/availablecab-by-registrationId")
+    public ResponseEntity<ApiResponse> checkCabAvailablity(@RequestBody CabAvailabilityRequest request) {
+		try {
+			boolean isAvailable = cabBookingDetailsService.checkCabAvailability(request);
+			if (!isAvailable) {
+				return ResponseEntity.status(400)
+						.body(new ApiResponse("Cab is not available for the selected date", null, 400));
+			}
+			return ResponseEntity.ok(new ApiResponse("success", new Object[] { isAvailable }, 200));
+		} catch (Exception e) {
+			return ResponseEntity.badRequest()
+					.body(new ApiResponse("Error checking availability: " + e.getMessage(), null, 400));
+		}
+	}
+
+	@Operation(summary = "Get cab booking details by user ID", description = "Fetches a cab booking by its ID.")
+	@GetMapping("/get-by-userid/{userId}")
+	public ResponseEntity<ApiResponse> getCabBookingDetailsByUserId(
+			@Parameter(description = "userID of the cab booking to fetch") @PathVariable("userId") Long userId) {
+		try {
+			List<CabBookingResponse> bookingResponse = cabBookingDetailsService.getCabBookingDetailsByUserId(userId);
+			return ResponseEntity.ok(new ApiResponse("success", new Object[] { bookingResponse }, 200));
+		} catch (Exception e) {
+			return ResponseEntity.badRequest()
+					.body(new ApiResponse("Error fetching booking: " + e.getMessage(), null, 400));
+		}
+	}
+	
+	@Operation(summary = "Get cab booking details by cab registration ID", description = "Fetches a cab booking by its cab registration ID.")
+	@GetMapping("/get-by-cabregistrationid/{cabRegistrationId}")
+	public ResponseEntity<ApiResponse> getCabBookingDetailsByCabRegistrationId(
+			@Parameter(description = "cabRegistrationId of the cab booking to fetch") @PathVariable("cabRegistrationId") Long cabRegistrationId) {
+		try {
+			List<CabBookingResponse> bookingResponse = cabBookingDetailsService.getCabBookingDetailsByCabRegistrationId(cabRegistrationId);
+			return ResponseEntity.ok(new ApiResponse("success", new Object[] { bookingResponse }, 200));
+		} catch (Exception e) {
+			return ResponseEntity.badRequest()
+					.body(new ApiResponse("Error fetching booking: " + e.getMessage(), null, 400));
+		}
+	}
+	
+	@GetMapping("/get-by-userid-and-status/{userId}/{bookingStatus}")
+    public ResponseEntity<ApiResponse> getBookingsByUserIdAndStatus(
+            @PathVariable("userId") Long userId,
+            @PathVariable("bookingStatus") String bookingStatus) {
+        try {
+            List<CabBookingDetails> bookingList = cabBookingDetailsService.getBookingsByUserIdAndStatus(userId, bookingStatus);
+            return ResponseEntity.ok(new ApiResponse("success", bookingList.toArray(), 200));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body(new ApiResponse("Error fetching bookings: " + e.getMessage(), null, 400));
+        }
+    }
+	
+	@PutMapping("/update-booking-status")
+    public ResponseEntity<ApiResponse> updateBookingStatusByRoleAndBookingId(@RequestBody UpdateBookingStatusRequest request) {
+        try {
+            CabBookingDetails updatedBooking = cabBookingDetailsService.updateBookingStatusByRoleAndBookingId(request);
+            return ResponseEntity.ok(new ApiResponse("success", new Object[] { updatedBooking }, 200));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body(new ApiResponse("Error updating booking status: " + e.getMessage(), null, 400));
+        }
+    }
+    
 }
