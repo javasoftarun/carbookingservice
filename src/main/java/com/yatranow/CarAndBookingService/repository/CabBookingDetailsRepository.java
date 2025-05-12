@@ -15,9 +15,8 @@ import com.yatranow.CarAndBookingService.entity.CabBookingDetails;
 public interface CabBookingDetailsRepository extends JpaRepository<CabBookingDetails, Long> {
 
 	@Query(value = "SELECT * FROM cab_booking_details c WHERE c.cab_registration_id = :cabRegistrationId AND "
-	        + "((c.pickup_date_time BETWEEN DATE_SUB(:pickupDateTime, INTERVAL 5 HOUR) AND :dropDateTime) OR "
-	        + "(c.drop_date_time BETWEEN :pickupDateTime AND :dropDateTime))", 
-	        nativeQuery = true)
+			+ "((c.pickup_date_time BETWEEN DATE_SUB(:pickupDateTime, INTERVAL 5 HOUR) AND :dropDateTime) OR "
+			+ "(c.drop_date_time BETWEEN :pickupDateTime AND :dropDateTime))", nativeQuery = true)
 	public Optional<CabBookingDetails> findAvailableCabBetweenPickAndDropDate(
 			@Param("cabRegistrationId") Long cabRegistrationId, @Param("pickupDateTime") LocalDateTime pickupDateTime,
 			@Param("dropDateTime") LocalDateTime dropDateTime);
@@ -27,7 +26,7 @@ public interface CabBookingDetailsRepository extends JpaRepository<CabBookingDet
 
 	@Query("SELECT c FROM CabBookingDetails c WHERE c.cabRegistrationId = :cabRegistrationId")
 	public List<CabBookingDetails> findByCabRegistrationId(@Param("cabRegistrationId") Long cabRegistrationId);
-	
+
 	List<CabBookingDetails> findByUserIdAndBookingStatus(Long userId, String bookingStatus);
 
 	public Optional<CabBookingDetails> findByBookingId(Long bookingId);
