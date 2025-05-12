@@ -3,7 +3,6 @@ package com.yatranow.CarAndBookingService.entity;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.CascadeType;
@@ -43,9 +42,7 @@ public class CabBookingDetails {
     @JoinColumn(name = "paymentId", referencedColumnName = "paymentId")
     private PaymentDetails paymentDetails;
     
-    @JsonIgnore
 	private LocalDateTime insertedAt;
-	@JsonIgnore
     private LocalDateTime updatedAt;
 	
 	@PrePersist
