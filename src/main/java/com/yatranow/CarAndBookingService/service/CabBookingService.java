@@ -205,7 +205,7 @@ public class CabBookingService {
 			cabBookingResponse.setBookingId(cabBookingDetails.getBookingId());
 			cabBookingResponse.setCabRegistrationId(cabBookingDetails.getCabRegistrationId());
 			cabBookingResponse.setPaymentStatus(cabBookingDetails.getPaymentStatus());
-			cabBookingResponse.setBookingStatusUpdatedBy(cabBookingDetails.getBookingStatusUpdatedBy());
+			cabBookingResponse.setBookingStatusUpdatedBy(cabBookingDetails.getBookingStatus());
 			cabBookingResponse.setPickupLocation(cabBookingDetails.getPickupLocation());
 			cabBookingResponse.setDropLocation(cabBookingDetails.getDropLocation());
 			cabBookingResponse.setPickupDateTime(cabBookingDetails.getPickupDateTime());
