@@ -88,6 +88,7 @@ public class CabBookingService {
 		cabBookingDetailsRepository.findById(id).ifPresent(cabBookingDetails -> {
 			cabBookingResponse.setBookingId(cabBookingDetails.getBookingId());
 			cabBookingResponse.setPaymentStatus(cabBookingDetails.getPaymentStatus());
+			cabBookingResponse.setBookingStatus(cabBookingDetails.getBookingStatus());
 			cabBookingResponse.setBookingStatusUpdatedBy(cabBookingDetails.getBookingStatusUpdatedBy());
 			cabBookingResponse.setCabRegistrationId(cabBookingDetails.getCabRegistrationId());
 			cabBookingResponse.setPickupLocation(cabBookingDetails.getPickupLocation());
@@ -129,6 +130,7 @@ public class CabBookingService {
 			cabBookingResponse.setBookingId(cabBookingDetails.getBookingId());
 			cabBookingResponse.setCabRegistrationId(cabBookingDetails.getCabRegistrationId());
 			cabBookingResponse.setPaymentStatus(cabBookingDetails.getPaymentStatus());
+			cabBookingResponse.setBookingStatus(cabBookingDetails.getBookingStatus());
 			cabBookingResponse.setBookingStatusUpdatedBy(cabBookingDetails.getBookingStatusUpdatedBy());
 			cabBookingResponse.setPickupLocation(cabBookingDetails.getPickupLocation());
 			cabBookingResponse.setDropLocation(cabBookingDetails.getDropLocation());
