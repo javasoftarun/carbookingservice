@@ -25,7 +25,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/cab/booking")
 @Tag(name = "Cab Booking Controller", description = "Endpoints for managing cab bookings")

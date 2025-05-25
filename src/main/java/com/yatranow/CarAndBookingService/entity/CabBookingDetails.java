@@ -20,41 +20,40 @@ public class CabBookingDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long bookingId;
-    private Long userId;
-    private Long cabRegistrationId;
-    private String pickupLocation;
-    private String dropLocation;
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime pickupDateTime;
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime dropDateTime;
-    private double fare;
-    private double promoDiscount;
-    private double tokenAmount;
-    @Nullable
-    private double balanceAmount;
-    private String bookingStatus;
-    private String bookingStatusUpdatedBy;
-    private String paymentStatus;
-    
+	private Long userId;
+	private Long cabRegistrationId;
+	private String pickupLocation;
+	private String dropLocation;
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+	private LocalDateTime pickupDateTime;
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+	private LocalDateTime dropDateTime;
+	private double fare;
+	private double promoDiscount;
+	private double tokenAmount;
+	@Nullable
+	private double balanceAmount;
+	private String bookingStatus;
+	private String bookingStatusUpdatedBy;
+	private String paymentStatus;
 
 	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "paymentId", referencedColumnName = "paymentId")
-    private PaymentDetails paymentDetails;
-    
-	private LocalDateTime insertedAt;
-    private LocalDateTime updatedAt;
-	
-	@PrePersist
-    protected void onCreate() {
-		insertedAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
-    }
+	@JoinColumn(name = "paymentId", referencedColumnName = "paymentId")
+	private PaymentDetails paymentDetails;
 
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
+	private LocalDateTime insertedAt;
+	private LocalDateTime updatedAt;
+
+	@PrePersist
+	protected void onCreate() {
+		insertedAt = LocalDateTime.now();
+		updatedAt = LocalDateTime.now();
+	}
+
+	@PreUpdate
+	protected void onUpdate() {
+		updatedAt = LocalDateTime.now();
+	}
 
 	public Long getBookingId() {
 		return bookingId;
@@ -113,19 +112,11 @@ public class CabBookingDetails {
 	}
 
 	public double getFare() {
-		return fare;
-	}
-
-	public void setFare(double fare) {
-		this.fare = fare;
+		return Math.round(fare * 100.0) / 100.0;
 	}
 
 	public double getPromoDiscount() {
-		return promoDiscount;
-	}
-
-	public void setPromoDiscount(double promoDiscount) {
-		this.promoDiscount = promoDiscount;
+		return Math.round(promoDiscount * 100.0) / 100.0;
 	}
 
 	public LocalDateTime getInsertedAt() {
@@ -151,20 +142,13 @@ public class CabBookingDetails {
 	public void setPaymentDetails(PaymentDetails paymentDetails) {
 		this.paymentDetails = paymentDetails;
 	}
-	public double getTokenAmount() {
-		return tokenAmount;
-	}
 
-	public void setTokenAmount(double tokenAmount) {
-		this.tokenAmount = tokenAmount;
+	public double getTokenAmount() {
+		return Math.round(tokenAmount * 100.0) / 100.0;
 	}
 
 	public double getBalanceAmount() {
-		return balanceAmount;
-	}
-
-	public void setBalanceAmount(double balanceAmount) {
-		this.balanceAmount = balanceAmount;
+		return Math.round(balanceAmount * 100.0) / 100.0;
 	}
 
 	public String getBookingStatus() {
@@ -190,6 +174,21 @@ public class CabBookingDetails {
 	public void setPaymentStatus(String paymentStatus) {
 		this.paymentStatus = paymentStatus;
 	}
-	
-}
 
+	public void setFare(double fare) {
+		this.fare = Math.round(fare * 100.0) / 100.0;
+	}
+
+	public void setPromoDiscount(double promoDiscount) {
+		this.promoDiscount = Math.round(promoDiscount * 100.0) / 100.0;
+	}
+
+	public void setTokenAmount(double tokenAmount) {
+		this.tokenAmount = Math.round(tokenAmount * 100.0) / 100.0;
+	}
+
+	public void setBalanceAmount(double balanceAmount) {
+		this.balanceAmount = Math.round(balanceAmount * 100.0) / 100.0;
+	}
+
+}

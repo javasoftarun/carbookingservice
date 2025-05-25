@@ -32,28 +32,28 @@ public class CabRegistrationDetails {
 	private int perKmRate;
 	private double baseFare;
 	private String status;
-	
+
 	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "cabId", referencedColumnName = "cabId")
+	@JoinColumn(name = "cabId", referencedColumnName = "cabId")
 	private Cab cab;
 	@JsonIgnore
 	private LocalDateTime insertedAt;
 	@JsonIgnore
-    private LocalDateTime updatedAt;
-	
-    public CabRegistrationDetails() {
-    }
-    
-	@PrePersist
-    protected void onCreate() {
-		insertedAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
-    }
+	private LocalDateTime updatedAt;
 
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
+	public CabRegistrationDetails() {
+	}
+
+	@PrePersist
+	protected void onCreate() {
+		insertedAt = LocalDateTime.now();
+		updatedAt = LocalDateTime.now();
+	}
+
+	@PreUpdate
+	protected void onUpdate() {
+		updatedAt = LocalDateTime.now();
+	}
 
 	public Long getRegistrationId() {
 		return registrationId;
@@ -152,11 +152,11 @@ public class CabRegistrationDetails {
 	}
 
 	public double getBaseFare() {
-		return baseFare;
+		return Math.round(baseFare * 100.0) / 100.0;
 	}
 
 	public void setBaseFare(double baseFare) {
-		this.baseFare = baseFare;
+		this.baseFare = Math.round(baseFare * 100.0) / 100.0;
 	}
 
 	public String getStatus() {
@@ -166,5 +166,5 @@ public class CabRegistrationDetails {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
+
 }
