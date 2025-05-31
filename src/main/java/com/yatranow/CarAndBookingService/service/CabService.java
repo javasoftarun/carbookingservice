@@ -70,6 +70,8 @@ public class CabService {
 						cabSearchResponse.setCabColor(cab.getCab().getCabColor());
 						cabSearchResponse.setCabInsurance(cab.getCab().getCabInsurance());
 						cabSearchResponse.setCabCapacity(cab.getCab().getCabCapacity());
+						cabSearchResponse.setAC(cab.getCab().isAC());
+						cabSearchResponse.setFuelType(cab.getCab().getFluelType());
 						cabSearchResponse.setCabImageUrl(cab.getCab().getCabImageUrl());
 
 						return cabSearchResponse;

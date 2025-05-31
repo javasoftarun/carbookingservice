@@ -67,6 +67,8 @@ public class CabBookingService {
 			cabBookingResponse.setCabCity(cabRegDetails.getCab().getCabCity());
 			cabBookingResponse.setCabState(cabRegDetails.getCab().getCabState());
 			cabBookingResponse.setCabModel(cabRegDetails.getCab().getCabModel());
+			cabBookingResponse.setAC(cabRegDetails.getCab().isAC());
+			cabBookingResponse.setFuelType(cabRegDetails.getCab().getFluelType());
 		});
 
 		return cabBookingResponse;
@@ -117,6 +119,8 @@ public class CabBookingService {
 						cabBookingResponse.setCabCity(cabRegDetails.getCab().getCabCity());
 						cabBookingResponse.setCabState(cabRegDetails.getCab().getCabState());
 						cabBookingResponse.setCabModel(cabRegDetails.getCab().getCabModel());
+						cabBookingResponse.setAC(cabRegDetails.getCab().isAC());
+						cabBookingResponse.setFuelType(cabRegDetails.getCab().getFluelType());
 					});
 		});
 		return cabBookingResponse;
@@ -158,6 +162,8 @@ public class CabBookingService {
 						cabBookingResponse.setCabCity(cabRegDetails.getCab().getCabCity());
 						cabBookingResponse.setCabState(cabRegDetails.getCab().getCabState());
 						cabBookingResponse.setCabModel(cabRegDetails.getCab().getCabModel());
+						cabBookingResponse.setAC(cabRegDetails.getCab().isAC());
+						cabBookingResponse.setFuelType(cabRegDetails.getCab().getFluelType());
 					});
 			bookingList.add(cabBookingResponse);
 		});
@@ -235,6 +241,8 @@ public class CabBookingService {
 						cabBookingResponse.setCabCity(cabRegDetails.getCab().getCabCity());
 						cabBookingResponse.setCabState(cabRegDetails.getCab().getCabState());
 						cabBookingResponse.setCabModel(cabRegDetails.getCab().getCabModel());
+						cabBookingResponse.setAC(cabRegDetails.getCab().isAC());
+						cabBookingResponse.setFuelType(cabRegDetails.getCab().getFluelType());
 					});
 			bookingList.add(cabBookingResponse);
 		});

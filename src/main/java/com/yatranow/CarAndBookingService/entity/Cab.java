@@ -26,6 +26,8 @@ public class Cab {
 	private String cabColor;
 	private String cabInsurance;
 	private String cabCapacity;
+	private String fluelType;
+	private boolean isAC;
 	private String cabImageUrl;
 	private String cabCity;
 	private String cabState;
@@ -137,4 +139,22 @@ public class Cab {
 	public void setCabState(String cabState) {
 		this.cabState = cabState;
 	}
+
+	public String getFluelType() {
+		return fluelType;
+	}
+
+	public void setFluelType(String fluelType) {
+		this.fluelType = fluelType;
+	}
+
+	public boolean isAC() {
+		return isAC;
+	}
+
+	public void setAC(boolean isAC) {
+		this.isAC = isAC;
+	}
+
+	
 }

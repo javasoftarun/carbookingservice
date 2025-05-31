@@ -43,6 +43,8 @@ public class CabBookingResponse {
 	private String cabImageUrl;
 	private String cabCity;
 	private String cabState;
+	private boolean isAC;
+	private String fuelType;
 	private String bookingStatusUpdatedBy;
 	private String paymentStatus;
 
@@ -284,5 +286,20 @@ public class CabBookingResponse {
 
 	public void setPaymentStatus(String paymentStatus) {
 		this.paymentStatus = paymentStatus;
+	}
+
+	public boolean isAC() {
+		return isAC;
+	}
+	public void setAC(boolean isAC) {
+		this.isAC = isAC;
+	}
+
+	public String getFuelType() {
+		return fuelType;
+	}
+
+	public void setFuelType(String fuelType) {
+		this.fuelType = fuelType;
 	}
 }

@@ -24,6 +24,8 @@ public class CabSearchResponse {
 	private String cabInsurance;
 	private String cabCapacity;
 	private String cabImageUrl;
+	private boolean isAC;
+	private String fuelType;
 
 	public Long getCabRegistrationId() {
 		return cabRegistrationId;
@@ -151,6 +153,21 @@ public class CabSearchResponse {
 
 	public void setDropDateTime(LocalDateTime dropDateTime) {
 		this.dropDateTime = dropDateTime;
+	}
+
+	public boolean isAC() {
+		return isAC;
+	}
+	public void setAC(boolean isAC) {
+		this.isAC = isAC;
+	}
+
+	public String getFuelType() {
+		return fuelType;
+	}
+
+	public void setFuelType(String fuelType) {
+		this.fuelType = fuelType;
 	}
 
 }
