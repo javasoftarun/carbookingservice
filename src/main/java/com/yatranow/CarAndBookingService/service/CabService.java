@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -27,6 +28,9 @@ public class CabService {
 
 	@Autowired
 	private RestTemplate template;
+	
+	@Value("${google.maps.api.key}")
+	private String apiKey;
 
 	public List<CabSearchResponse> searchCabs(CabSearchRequest cabSearchRequest) {
 		List<CabSearchResponse> cabSearchResponses = cabDetailsRepository
@@ -91,7 +95,7 @@ public class CabService {
 		logger.info("In CabService.findDistance(-) : Finding distance using Google Maps API");
 		ResponseEntity<String> response = template.getForEntity(
 				"https://maps.googleapis.com/maps/api/distancematrix/json?destinations=" + toLocation + "&origins="
-						+ fromLocation + "&units=imperial&key=AIzaSyBPNLDkybaqr6BXXpteScrvStXRPrwHD6E",
+						+ fromLocation + "&units=imperial&key="+apiKey,
 				String.class);
 
 		ObjectMapper objectMapper = new ObjectMapper();
