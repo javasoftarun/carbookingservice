@@ -22,6 +22,7 @@ public class CabRegistrationDetails {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "registration_id")
 	private Long registrationId;
+	private Long userId;
 	private String ownerName;
 	private String driverName;
 	private String driverContact;
@@ -54,7 +55,13 @@ public class CabRegistrationDetails {
 	protected void onUpdate() {
 		updatedAt = LocalDateTime.now();
 	}
+	public Long getUserId() {
+		return userId;
+	}
 
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
 	public Long getRegistrationId() {
 		return registrationId;
 	}

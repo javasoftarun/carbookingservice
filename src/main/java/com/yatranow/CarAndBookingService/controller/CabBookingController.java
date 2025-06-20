@@ -164,5 +164,31 @@ public class CabBookingController {
                     .body(new ApiResponse("Error updating booking status: " + e.getMessage(), null, 400));
         }
     }
+	
+	@Operation(summary = "Get cab booking details by vendor ID", description = "Fetches a cab booking by Vendor ID.")
+	@GetMapping("/find-pending-request/{vendorId}")
+	public ResponseEntity<ApiResponse> getCabBookingRequestForVendorId(
+			@Parameter(description = "vendorId of the cab booking to fetch") @PathVariable("vendorId") Long vendorId) {
+		try {
+			List<CabBookingResponse> bookingResponse = cabBookingDetailsService.getCabBookingRequestForVendorId(vendorId);
+			return ResponseEntity.ok(new ApiResponse("success", new Object[] { bookingResponse }, 200));
+		} catch (Exception e) {
+			return ResponseEntity.badRequest()
+					.body(new ApiResponse("Error fetching booking: " + e.getMessage(), null, 400));
+		}
+	}
+	
+	@Operation(summary = "Get cab booking history by user ID", description = "Fetches a cab booking history by its ID.")
+	@GetMapping("/find-all-bookings/{vendorId}")
+	public ResponseEntity<ApiResponse> getCabBookingHistoryForVendorId(
+			@Parameter(description = "vendorId of the cab booking to fetch history") @PathVariable("vendorId") Long vendorId) {
+		try {
+			List<CabBookingResponse> bookingResponse = cabBookingDetailsService.getCabBookingHistoryForVendorId(vendorId);
+			return ResponseEntity.ok(new ApiResponse("success", new Object[] { bookingResponse }, 200));
+		} catch (Exception e) {
+			return ResponseEntity.badRequest()
+					.body(new ApiResponse("Error fetching booking history: " + e.getMessage(), null, 400));
+		}
+	}
     
 }
