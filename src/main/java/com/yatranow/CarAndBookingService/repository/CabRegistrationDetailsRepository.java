@@ -17,11 +17,11 @@ public interface CabRegistrationDetailsRepository extends JpaRepository<CabRegis
 	@Query("SELECT c FROM CabRegistrationDetails c WHERE c.registrationId = :registrationId")
 	Optional<CabRegistrationDetails> findByRegistrationId(@Param("registrationId") Long registrationId);
 
-	@Query("SELECT c FROM CabRegistrationDetails c WHERE c.registrationId NOT IN ("
+	@Query("SELECT c FROM CabRegistrationDetails c WHERE c.status = 'active' AND c.registrationId NOT IN ("
 			+ "SELECT b.cabRegistrationId FROM CabBookingDetails b "
 			+ "WHERE (:pickupDateTime BETWEEN b.pickupDateTime AND b.dropDateTime "
 			+ "OR :dropDateTime BETWEEN b.pickupDateTime AND b.dropDateTime "
-			+ "OR :pickupDateTime = b.pickupDateTime OR :dropDateTime = b.dropDateTime))")
+			+ "OR :pickupDateTime = b.pickupDateTime OR :dropDateTime = b.dropDateTime) AND b.bookingStatus NOT IN ('Cancelled','Completed'))")
 	List<CabRegistrationDetails> findAvailableCabs(@Param("pickupDateTime") LocalDateTime pickupDateTime,
 			@Param("dropDateTime") LocalDateTime dropDateTime);
 

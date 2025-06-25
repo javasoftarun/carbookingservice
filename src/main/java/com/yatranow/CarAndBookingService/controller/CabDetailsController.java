@@ -44,7 +44,7 @@ public class CabDetailsController {
 	public ResponseEntity<ApiResponse> registerCabDetails(
 			@Parameter(description = "Cab registration details to be saved", required = true) @RequestBody CabRegistrationDetails cabRegistrationDetails) {
 		try {
-			cabRegistrationDetails.setStatus("Pending");
+			cabRegistrationDetails.setStatus("inactive");
 			CabRegistrationDetails savedDetails = cabRegistrationDetailsRepository.save(cabRegistrationDetails);
 			return ResponseEntity.ok(new ApiResponse("success", new Object[] { savedDetails }, 200));
 		} catch (Exception e) {
